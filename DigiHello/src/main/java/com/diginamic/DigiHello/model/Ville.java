@@ -12,6 +12,12 @@ public class Ville {
 	private int nbHabitant;
 	
 	/** Constructeur
+	 * 
+	 */
+	public Ville() {
+		super();
+	}
+	/** Constructeur
 	 * @param nom
 	 * @param nbHabitant
 	 */
