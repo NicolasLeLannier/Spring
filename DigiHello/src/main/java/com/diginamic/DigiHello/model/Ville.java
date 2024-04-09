@@ -8,8 +8,10 @@ package com.diginamic.DigiHello.model;
  */
 public class Ville {
 
+	private int id;
 	private String nom;
 	private int nbHabitant;
+	private static int compteur = 1;
 	
 	/** Constructeur
 	 * 
@@ -23,6 +25,7 @@ public class Ville {
 	 */
 	public Ville(String nom, int nbHabitant) {
 		super();
+		this.id = compteur++;
 		this.nom = nom;
 		this.nbHabitant = nbHabitant;
 	}
@@ -50,6 +53,17 @@ public class Ville {
 	public void setNbHabitant(int nbHabitant) {
 		this.nbHabitant = nbHabitant;
 	}
-	
+	/** Getter
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+	/** Setter
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}	
 	
 }
