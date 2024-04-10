@@ -7,8 +7,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.diginamic.DigiHello.model.Departement;
 import com.diginamic.DigiHello.model.Ville;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
@@ -23,6 +25,14 @@ public class VilleService {
 	
 	@PersistenceContext
     private EntityManager em;
+	
+//	@PostConstruct
+//	public void init() {
+//		//first time we create some towns because db is empty...
+//		insertVille(new Ville("Paris",2133111,new Departement("75","Paris")));
+//		insertVille(new Ville("Marseille", 873076,new Departement("13","Bouches-du-Rhône")));
+//		insertVille(new Ville("Lyon", 522250,new Departement("69","Rhône")));
+//	}
 
 	public List<Ville> extractVilles() {
 		TypedQuery<Ville> query = em.createQuery("SELECT v FROM Ville v", Ville.class);
@@ -44,7 +54,7 @@ public class VilleService {
 	}
 	
 	public List<Ville> modifierVille(int idVille, Ville villeModifiee) {
-		System.out.println(villeModifiee.getNom() + " | " + villeModifiee.getNbHabitant() + " | " + villeModifiee.getId() + " | ");
+		System.out.println(villeModifiee);
 		Ville ville = extractVille(idVille);
 		if(ville != null) {
 			ville.setNom(villeModifiee.getNom());

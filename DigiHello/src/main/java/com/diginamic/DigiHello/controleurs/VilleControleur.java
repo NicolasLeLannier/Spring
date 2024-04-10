@@ -51,13 +51,13 @@ public class VilleControleur {
         }
     }
 
-    @PutMapping
+    @PostMapping
     public ResponseEntity<List<Ville>> insertVille(@RequestBody Ville ville) {
         List<Ville> villes = villeService.insertVille(ville);
         return new ResponseEntity<>(villes, HttpStatus.CREATED);
     }
 
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<List<Ville>> modifierVille(@PathVariable int id, @RequestBody Ville villeModifiee) {
         List<Ville> villes = villeService.modifierVille(id, villeModifiee);
         if (villes != null) {
