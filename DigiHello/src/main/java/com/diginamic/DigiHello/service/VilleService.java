@@ -25,14 +25,6 @@ public class VilleService {
 	
 	@PersistenceContext
     private EntityManager em;
-	
-//	@PostConstruct
-//	public void init() {
-//		//first time we create some towns because db is empty...
-//		insertVille(new Ville("Paris",2133111,new Departement("75","Paris")));
-//		insertVille(new Ville("Marseille", 873076,new Departement("13","Bouches-du-Rhône")));
-//		insertVille(new Ville("Lyon", 522250,new Departement("69","Rhône")));
-//	}
 
 	public List<Ville> extractVilles() {
 		TypedQuery<Ville> query = em.createQuery("SELECT v FROM Ville v", Ville.class);
