@@ -3,32 +3,39 @@
  */
 package com.diginamic.DigiHello.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
 /** 
  * @author Nicolas LE LANNIER
  */
+@Entity
 public class Ville {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String nom;
 	private int nbHabitant;
-	private static int compteur = 1;
 	
 	/** Constructeur
 	 * 
 	 */
 	public Ville() {
-		super();
 	}
+	
 	/** Constructeur
 	 * @param nom
 	 * @param nbHabitant
 	 */
 	public Ville(String nom, int nbHabitant) {
 		super();
-		this.id = compteur++;
 		this.nom = nom;
 		this.nbHabitant = nbHabitant;
 	}
+	
 	/** Getter
 	 * @return the nom
 	 */

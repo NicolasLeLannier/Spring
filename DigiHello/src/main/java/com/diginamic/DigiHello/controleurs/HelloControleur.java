@@ -27,7 +27,7 @@ public class HelloControleur {
 	
 	@GetMapping
 	public String direHello() {
-		return helloService .salutations();
+		return helloService.salutations();
 	}
 	
 	@GetMapping("/truc")
