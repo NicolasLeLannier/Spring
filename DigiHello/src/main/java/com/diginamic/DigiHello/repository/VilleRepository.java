@@ -29,12 +29,12 @@ public interface VilleRepository extends CrudRepository<Ville, Integer> {
     List<Ville> findByNbHabitantBetween(int minPopulation, int maxPopulation);
 
     // Recherche de toutes les villes d’un département dont la population est supérieure à min
-    List<Ville> findByDepartementIdAndNbHabitantGreaterThan(Long departementId, int minPopulation);
+    List<Ville> findByDepartementNumeroAndNbHabitantGreaterThan(String departementNumero, int minPopulation);
 
     // Recherche de toutes les villes d’un département dont la population est comprise entre min et max
-    List<Ville> findByDepartementIdAndNbHabitantBetween(Long departementId, int minPopulation, int maxPopulation);
+    List<Ville> findByDepartementNumeroAndNbHabitantBetween(String departementId, int minPopulation, int maxPopulation);
 
     // Recherche des n villes les plus peuplées d’un département donné (n est aussi un paramètre)
-    Page<Ville> findByDepartementIdOrderByNbHabitantDesc(Long departementId, Pageable pageable);
+    Page<Ville> findByDepartementNumeroOrderByNbHabitantDesc(String departementNumero, Pageable pageable);
 
 }

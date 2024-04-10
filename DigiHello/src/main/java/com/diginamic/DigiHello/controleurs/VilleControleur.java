@@ -86,19 +86,19 @@ public class VilleControleur {
         return villeRepository.findByNbHabitantBetween(minPopulation, maxPopulation);
     }
 
-    @GetMapping("/population-departement-superieure-a/{departementId}/{minPopulation}")
-    public List<Ville> getByDepartementAndPopulationGreaterThan(@PathVariable Long departementId, @PathVariable int minPopulation) {
-        return villeRepository.findByDepartementIdAndNbHabitantGreaterThan(departementId, minPopulation);
+    @GetMapping("/population-departement-superieure-a/{departementNumero}/{minPopulation}")
+    public List<Ville> getByDepartementAndPopulationGreaterThan(@PathVariable String departementNumero, @PathVariable int minPopulation) {
+        return villeRepository.findByDepartementNumeroAndNbHabitantGreaterThan(departementNumero, minPopulation);
     }
 
-    @GetMapping("/population-departement-entre/{departementId}/{minPopulation}/{maxPopulation}")
-    public List<Ville> getByDepartementAndPopulationBetween(@PathVariable Long departementId, @PathVariable int minPopulation, @PathVariable int maxPopulation) {
-        return villeRepository.findByDepartementIdAndNbHabitantBetween(departementId, minPopulation, maxPopulation);
+    @GetMapping("/population-departement-entre/{departementNumero}/{minPopulation}/{maxPopulation}")
+    public List<Ville> getByDepartementAndPopulationBetween(@PathVariable String departementNumero, @PathVariable int minPopulation, @PathVariable int maxPopulation) {
+        return villeRepository.findByDepartementNumeroAndNbHabitantBetween(departementNumero, minPopulation, maxPopulation);
     }
 
-    @GetMapping("/plus-peuples/{departementId}/{size}")
-    public List<Ville> getMostPopulousByDepartement(@PathVariable Long departementId, @PathVariable int size) {
-    	return villeRepository.findByDepartementIdOrderByNbHabitantDesc(departementId, Pageable.ofSize(size)).getContent();
+    @GetMapping("/plus-peuples/{departementNumero}/{size}")
+    public List<Ville> getMostPopulousByDepartement(@PathVariable String departementNumero, @PathVariable int size) {
+    	return villeRepository.findByDepartementNumeroOrderByNbHabitantDesc(departementNumero, Pageable.ofSize(size)).getContent();
     }
     
 
