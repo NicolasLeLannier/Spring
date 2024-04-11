@@ -31,7 +31,7 @@ public class Departement {
 	private String nom;
 	
 	@OneToMany(mappedBy = "departement", cascade = CascadeType.ALL)
-	@JsonIgnore		// Empêche la recursion infini dans le JSON
+	//@JsonIgnore		// Empêche la recursion infini dans le JSON
     private List<Ville> villes = new ArrayList<>();
 
 
