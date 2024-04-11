@@ -58,8 +58,8 @@ public class VilleControleur {
 		insertVille(new Ville("Marseille", 873076,new Departement("13","Bouches-du-Rhône")));
 		insertVille(new Ville("Lyon", 522250,new Departement("69","Rhône")));
 		insertVille(new Ville("Tours", 150000,new Departement("37","Indre-et-Loire")));
-		insertVille(new Ville("La Membrolle-sur-Choisille", 1000,new Departement("37","Indre-et-Loire")));
-		insertVille(new Ville("Saint-Cyr-sur-Loire", 50000,new Departement("37","Indre-et-Loire")));
+//		insertVille(new Ville("La Membrolle-sur-Choisille", 1000,new Departement("37","Indre-et-Loire")));
+//		insertVille(new Ville("Saint-Cyr-sur-Loire", 50000,new Departement("37","Indre-et-Loire")));
 	}
 
 //    @GetMapping
