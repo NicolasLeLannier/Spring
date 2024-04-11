@@ -1,24 +1,11 @@
 package com.diginamic.DigiHello.dto;
 
-import java.util.List;
-
 public class DepartementDTO {
     private Long id;
     private String numero;
     private String nom;
     private int nbHabitants;
     
-	/** Constructeur
-	 * @param numero
-	 * @param nom
-	 * @param nbHabitants
-	 */
-	public DepartementDTO(String numero, String nom, int nbHabitants) {
-		super();
-		this.numero = numero;
-		this.nom = nom;
-		this.nbHabitants = nbHabitants;
-	}
 
 	/** Constructeur
 	 * 

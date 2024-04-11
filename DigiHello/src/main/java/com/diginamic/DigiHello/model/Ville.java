@@ -4,6 +4,7 @@
 package com.diginamic.DigiHello.model;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,7 +21,9 @@ public class Ville {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	@Column(nullable = false)
 	private String nom;
+	@Column(nullable = false)
 	private int nbHabitant;
 	
 	@ManyToOne(cascade = CascadeType.PERSIST)

@@ -1,7 +1,6 @@
 package com.diginamic.DigiHello.dto;
 
 public class VilleDTO {
-    private int id;
     private String nom;
     private int nbHabitant;
     private String codeDepartement;
@@ -54,20 +53,6 @@ public class VilleDTO {
 	 */
 	public void setNomDepartement(String nomDepartement) {
 		this.nomDepartement = nomDepartement;
-	}
-
-	/** Getter
-	 * @return the id
-	 */
-	public int getId() {
-		return id;
-	}
-
-	/** Setter
-	 * @param id the id to set
-	 */
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	/** Getter

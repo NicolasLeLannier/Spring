@@ -3,6 +3,9 @@ package com.diginamic.DigiHello.controleurs;
 import com.diginamic.DigiHello.model.Departement;
 import com.diginamic.DigiHello.model.Ville;
 import com.diginamic.DigiHello.service.DepartementService;
+import com.diginamic.DigiHello.service.VilleService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,8 +15,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/departements")
 public class DepartementControleur {
-
+	
+	@Autowired
     private final DepartementService departementService;
+    @Autowired
+    private VilleService villeService;
 
     public DepartementControleur(DepartementService departementService) {
         this.departementService = departementService;

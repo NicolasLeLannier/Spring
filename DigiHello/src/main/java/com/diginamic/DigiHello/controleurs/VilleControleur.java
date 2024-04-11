@@ -117,29 +117,6 @@ public class VilleControleur {
     		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     	}
     }
-    
-//    @PostMapping
-//    public ResponseEntity<Ville> insertVille(@RequestBody Ville ville) {
-//        if (ville.getDepartement() == null || ville.getDepartement().getNumero() == null || ville.getDepartement().getNumero().isEmpty() || ville.getDepartement().getNom() == null || ville.getDepartement().getNom().isEmpty()) {
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        }
-//        
-//        Departement existingDepartement = departementRepository.findByNumero(ville.getDepartement().getNumero());
-//        if (existingDepartement == null) {
-//            existingDepartement = departementRepository.save(ville.getDepartement());
-//        } else {
-//            ville.setDepartement(existingDepartement);
-//        }
-//
-//        Ville result = villeRepository.findByNom(ville.getNom());
-//        if (result == null) {
-//            Ville savedVille = villeRepository.save(ville);
-//            return new ResponseEntity<>(savedVille, HttpStatus.CREATED);
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.CONFLICT); // Ville with the same name already exists
-//        }
-//    }
-
 
     @PutMapping("/{id}")
     public ResponseEntity<Ville> modifierVille(@PathVariable int id, @RequestBody Ville villeModifiee) {
