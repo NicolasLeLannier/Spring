@@ -1,7 +1,10 @@
 package com.diginamic.DigiHello.controleurs;
 
+import com.diginamic.DigiHello.dto.DepartementDTO;
+import com.diginamic.DigiHello.mappers.DepartementMapper;
 import com.diginamic.DigiHello.model.Departement;
 import com.diginamic.DigiHello.model.Ville;
+import com.diginamic.DigiHello.repository.DepartementRepository;
 import com.diginamic.DigiHello.service.DepartementService;
 import com.diginamic.DigiHello.service.VilleService;
 
@@ -11,20 +14,31 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/departements")
 public class DepartementControleur {
 	
 	@Autowired
-    private final DepartementService departementService;
+    private DepartementService departementService;
+	@Autowired
+    private DepartementRepository departementRepository;
     @Autowired
-    private VilleService villeService;
+    private DepartementMapper departementMapper;
 
-    public DepartementControleur(DepartementService departementService) {
+    public DepartementControleur(DepartementService departementService, DepartementMapper departementMapper) {
         this.departementService = departementService;
+        this.departementMapper = departementMapper;
     }
 
+//    @GetMapping
+//    public List<DepartementDTO> findAll() {
+//    	return departementRepository.findAll().stream()
+//                .map(departementMapper::toDto)
+//                .collect(Collectors.toList());
+//    }
+    
     @GetMapping
     public ResponseEntity<List<Departement>> getAllDepartements() {
         List<Departement> departements = departementService.getAllDepartements();

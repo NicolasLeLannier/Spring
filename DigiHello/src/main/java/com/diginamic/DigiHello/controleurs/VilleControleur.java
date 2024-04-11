@@ -1,7 +1,10 @@
 package com.diginamic.DigiHello.controleurs;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -16,10 +19,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.diginamic.DigiHello.dto.DepartementDTO;
+import com.diginamic.DigiHello.dto.VilleDTO;
+import com.diginamic.DigiHello.mappers.DepartementMapper;
 import com.diginamic.DigiHello.model.Departement;
 import com.diginamic.DigiHello.model.Ville;
 import com.diginamic.DigiHello.repository.DepartementRepository;
 import com.diginamic.DigiHello.repository.VilleRepository;
+import com.diginamic.DigiHello.service.VilleService;
 
 import jakarta.annotation.PostConstruct;
 
@@ -28,12 +35,20 @@ import jakarta.annotation.PostConstruct;
 public class VilleControleur {
 
     private VilleRepository villeRepository;
-    private DepartementRepository departementRepository;
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Autowired
-    public VilleControleur(VilleRepository villeRepository, DepartementRepository departementRepository) {
+    public VilleControleur(VilleRepository villeRepository, ModelMapper modelMapper) {
         this.villeRepository = villeRepository;
-        this.departementRepository = departementRepository;
+        this.modelMapper = modelMapper;
+    }
+    
+    @GetMapping
+    public List<VilleDTO> getAllVille() {
+    	return StreamSupport.stream(villeRepository.findAll().spliterator(), false)
+                .map(ville -> modelMapper.map(ville, VilleDTO.class))
+                .collect(Collectors.toList());
     }
     
 	@PostConstruct
@@ -47,10 +62,10 @@ public class VilleControleur {
 		insertVille(new Ville("Saint-Cyr-sur-Loire", 50000,new Departement("37","Indre-et-Loire")));
 	}
 
-    @GetMapping
-    public List<Ville> getListeVilles() {
-        return (List<Ville>) villeRepository.findAll();
-    }
+//    @GetMapping
+//    public List<Ville> getListeVilles() {
+//        return (List<Ville>) villeRepository.findAll();
+//    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Ville> getVilleById(@PathVariable int id) {

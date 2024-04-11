@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.diginamic.DigiHello.dto.DepartementDTO;
 import com.diginamic.DigiHello.model.Departement;
+import com.diginamic.DigiHello.model.Ville;
 
 /**
  * @author Nicolas LE LANNIER
@@ -19,6 +20,10 @@ public class DepartementMapper {
 		dto.setNumero(departement.getNumero());
 		dto.setNom(departement.getNom());
 		dto.setNbHabitants(departement.getVilles().size());
+		int nbTotal = 0;
+		for(Ville ville: departement.getVilles()) {
+			nbTotal += ville.getNbHabitant();
+		}
 		return dto;
 	}
 
