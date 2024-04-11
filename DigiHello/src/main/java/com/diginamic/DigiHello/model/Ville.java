@@ -3,14 +3,13 @@
  */
 package com.diginamic.DigiHello.model;
 
-import org.antlr.v4.runtime.misc.NotNull;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotNull;
 
 /** 
  * @author Nicolas LE LANNIER
@@ -24,7 +23,7 @@ public class Ville {
 	private String nom;
 	private int nbHabitant;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@NotNull
     private Departement departement;
 	

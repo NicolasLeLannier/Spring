@@ -17,7 +17,7 @@ public class TestSingleton {
 	}
 	
 	public TestSingleton() {
-		System.out.println("TestSingleton");
+		//System.out.println("TestSingleton");
 	}
 	
 }

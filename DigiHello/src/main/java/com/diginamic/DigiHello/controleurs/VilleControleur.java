@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.diginamic.DigiHello.model.Departement;
 import com.diginamic.DigiHello.model.Ville;
+import com.diginamic.DigiHello.repository.DepartementRepository;
 import com.diginamic.DigiHello.repository.VilleRepository;
 
 import jakarta.annotation.PostConstruct;
@@ -27,10 +28,12 @@ import jakarta.annotation.PostConstruct;
 public class VilleControleur {
 
     private VilleRepository villeRepository;
+    private DepartementRepository departementRepository;
 
     @Autowired
-    public VilleControleur(VilleRepository villeRepository) {
+    public VilleControleur(VilleRepository villeRepository, DepartementRepository departementRepository) {
         this.villeRepository = villeRepository;
+        this.departementRepository = departementRepository;
     }
     
 	@PostConstruct
@@ -99,6 +102,7 @@ public class VilleControleur {
     @GetMapping("/plus-peuples/{departementNumero}/{size}")
     public List<Ville> getMostPopulousByDepartement(@PathVariable String departementNumero, @PathVariable int size) {
     	return villeRepository.findByDepartementNumeroOrderByNbHabitantDesc(departementNumero, Pageable.ofSize(size)).getContent();
+    	
     }
     
 
@@ -113,6 +117,29 @@ public class VilleControleur {
     		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     	}
     }
+    
+//    @PostMapping
+//    public ResponseEntity<Ville> insertVille(@RequestBody Ville ville) {
+//        if (ville.getDepartement() == null || ville.getDepartement().getNumero() == null || ville.getDepartement().getNumero().isEmpty() || ville.getDepartement().getNom() == null || ville.getDepartement().getNom().isEmpty()) {
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        }
+//        
+//        Departement existingDepartement = departementRepository.findByNumero(ville.getDepartement().getNumero());
+//        if (existingDepartement == null) {
+//            existingDepartement = departementRepository.save(ville.getDepartement());
+//        } else {
+//            ville.setDepartement(existingDepartement);
+//        }
+//
+//        Ville result = villeRepository.findByNom(ville.getNom());
+//        if (result == null) {
+//            Ville savedVille = villeRepository.save(ville);
+//            return new ResponseEntity<>(savedVille, HttpStatus.CREATED);
+//        } else {
+//            return new ResponseEntity<>(HttpStatus.CONFLICT); // Ville with the same name already exists
+//        }
+//    }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Ville> modifierVille(@PathVariable int id, @RequestBody Ville villeModifiee) {

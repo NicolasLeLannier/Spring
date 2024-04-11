@@ -3,6 +3,7 @@
  */
 package com.diginamic.DigiHello.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -28,7 +29,7 @@ public class Departement {
 	
 	@OneToMany(mappedBy = "departement", cascade = CascadeType.ALL)
 	@JsonIgnore		// Empêche la recursion infini dans le JSON
-    private List<Ville> villes;
+    private List<Ville> villes = new ArrayList<>();
 
 
 	/** Constructeur
