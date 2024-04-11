@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 
+import com.diginamic.DigiHello.model.Departement;
 import com.diginamic.DigiHello.model.Ville;
 import java.util.List;
 
@@ -36,5 +37,7 @@ public interface VilleRepository extends CrudRepository<Ville, Integer> {
 
     // Recherche des n villes les plus peuplées d’un département donné (n est aussi un paramètre)
     Page<Ville> findByDepartementNumeroOrderByNbHabitantDesc(String departementNumero, Pageable pageable);
+    
+    Ville findByNomAndDepartement(String nom, Departement departement);
 
 }

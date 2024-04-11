@@ -1,6 +1,7 @@
 package com.diginamic.DigiHello.controleurs;
 
 import com.diginamic.DigiHello.dto.DepartementDTO;
+import com.diginamic.DigiHello.exception.FunctionalException;
 import com.diginamic.DigiHello.mappers.DepartementMapper;
 import com.diginamic.DigiHello.model.Departement;
 import com.diginamic.DigiHello.model.Ville;
@@ -56,9 +57,22 @@ public class DepartementControleur {
     }
     
     @PostMapping
-    public ResponseEntity<List<Departement>> insertDepartement(@RequestBody Departement ville) {
-        List<Departement> departement = departementService.insertDepartement(ville);
-        return new ResponseEntity<>(departement, HttpStatus.CREATED);
+    public ResponseEntity<Departement> insertDepartement(@RequestBody Departement departement) throws FunctionalException {
+        if (departement.getNumero().length() < 2 || departement.getNumero().length() > 3) {
+            throw new FunctionalException("Le code du département doit contenir entre 2 et 3 caractères.");
+        }
+        
+        if (departement.getNom().length() < 3) {
+            throw new FunctionalException("Le nom du département doit contenir au moins 3 lettres.");
+        }
+        
+        Departement existingDepartement = departementRepository.findByNumero(departement.getNumero());
+        if (existingDepartement != null) {
+            throw new FunctionalException("Un département avec ce code existe déjà.");
+        }
+        
+        Departement savedDepartement = departementRepository.save(departement);
+        return new ResponseEntity<>(savedDepartement, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
