@@ -1,11 +1,13 @@
 package com.diginamic.DigiHello.controleurs;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,13 +30,25 @@ import com.diginamic.DigiHello.model.Ville;
 import com.diginamic.DigiHello.repository.DepartementRepository;
 import com.diginamic.DigiHello.repository.VilleRepository;
 import com.diginamic.DigiHello.service.VilleService;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import jakarta.annotation.PostConstruct;
+import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/villes")
 public class VilleControleur {
 
+	@Value("${digihello.pdf}")
+	private String file;
+	
 	private VilleRepository villeRepository;
 	private VilleService villeService;
 	@Autowired
@@ -82,6 +96,32 @@ public class VilleControleur {
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+	}
+	
+	@GetMapping("/{id}/file")
+	public void getVilleFile(@PathVariable int id, HttpServletResponse response) throws FunctionalException, IOException, DocumentException {
+		Ville ville = villeService.extractVille(id);
+		
+		Document docPdf = new Document(PageSize.A4);
+		
+		 response.setHeader("Content-Disposition", "attachment; filename=\"" + id + "-" + file + "\"");
+		 
+		 PdfWriter.getInstance(docPdf, response.getOutputStream());
+		 
+		 docPdf.open();
+		 docPdf.addAuthor("Nicolas");
+		 docPdf.addTitle("Fiche Ville - " + ville.getNom());
+		 docPdf.newPage();
+		 BaseFont baseFont = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.WINANSI, BaseFont.EMBEDDED);
+		 Phrase p1 = new Phrase("Nom de la ville : " + ville.getNom() + "\n", new Font(baseFont, 32.0f, 1, new BaseColor(0, 51, 80)));
+		 Phrase p2 = new Phrase("Nombre d'habitants : " + ville.getNbHabitant() + "\n", new Font(baseFont, 32.0f, 1, new BaseColor(0, 51, 80)));
+		 Phrase p3 = new Phrase("Nom département : " + ville.getDepartement().getNom() + " (" + ville.getDepartement().getNumero() + ")", new Font(baseFont, 32.0f, 1, new BaseColor(0, 51, 80)));
+		 docPdf.add(p1);
+		 docPdf.add(p2);
+		 docPdf.add(p3);
+		 docPdf.close();
+		 
+		 response.flushBuffer();
 	}
 
 	@GetMapping("/nom/{nom}")
