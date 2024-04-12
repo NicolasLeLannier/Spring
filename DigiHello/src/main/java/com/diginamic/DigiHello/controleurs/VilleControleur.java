@@ -1,6 +1,8 @@
 package com.diginamic.DigiHello.controleurs;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -8,8 +10,11 @@ import java.util.stream.StreamSupport;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,6 +43,7 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.opencsv.CSVWriter;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletResponse;
@@ -123,6 +129,37 @@ public class VilleControleur {
 		 
 		 response.flushBuffer();
 	}
+	
+	@GetMapping("/export/villes")
+    public ResponseEntity<ByteArrayResource> exportVillesCSV() {
+        List<Ville> villes = villeService.extractVilles();
+
+        try (
+            StringWriter stringWriter = new StringWriter();
+            CSVWriter csvWriter = new CSVWriter(stringWriter)
+        ) {
+            csvWriter.writeNext(new String[]{"Nom de la ville", "Nombre d'habitants", "Code département", "Nom du département"});
+            for (Ville ville : villes) {
+                csvWriter.writeNext(new String[]{ville.getNom(), String.valueOf(ville.getNbHabitant()), ville.getDepartement().getNumero(), ville.getDepartement().getNom()});
+            }
+            csvWriter.flush();
+            byte[] bytes = stringWriter.toString().getBytes();
+            ByteArrayResource resource = new ByteArrayResource(bytes);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=villes.csv");
+
+            return ResponseEntity
+                    .ok()
+                    .headers(headers)
+                    .contentLength(bytes.length)
+                    .contentType(MediaType.parseMediaType("application/csv"))
+                    .body(resource);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 	@GetMapping("/nom/{nom}")
 	public ResponseEntity<List<Ville>> getVillesByNom(@PathVariable String nom) {
