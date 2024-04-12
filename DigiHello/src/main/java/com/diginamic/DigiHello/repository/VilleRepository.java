@@ -19,6 +19,9 @@ public interface VilleRepository extends CrudRepository<Ville, Integer> {
 	
 	// Recherche par nom
 	Ville findByNom(String nom);
+	
+	// Check si nom existe
+	boolean existsByNom(String nom);
 
 	// Recherche de toutes les villes dont le nom commence par une chaine de caractères données
     List<Ville> findByNomStartingWith(String nom);

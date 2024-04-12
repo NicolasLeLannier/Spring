@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.diginamic.DigiHello.exception.FunctionalException;
 import com.diginamic.DigiHello.model.Departement;
 import com.diginamic.DigiHello.model.Ville;
 import com.diginamic.DigiHello.repository.DepartementRepository;
@@ -49,10 +50,14 @@ public class VilleService {
 		return query.getSingleResult();
 	}
 
-	public List<Ville> insertVille(Ville ville) {
-		em.persist(ville);
-		return extractVilles();
+	public List<Ville> insertVille(Ville ville) throws FunctionalException {
+	    if (villeRepository.existsByNom(ville.getNom())) {
+	        throw new FunctionalException("Ville already exists");
+	    }
+	    em.persist(ville);
+	    return extractVilles();
 	}
+
 
 	public List<Ville> modifierVille(int idVille, Ville villeModifiee) {
 		System.out.println(villeModifiee);
