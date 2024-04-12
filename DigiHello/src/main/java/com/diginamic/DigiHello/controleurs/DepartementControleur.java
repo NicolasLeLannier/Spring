@@ -16,16 +16,21 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.opencsv.CSVWriter;
 
 import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -94,6 +99,37 @@ public class DepartementControleur {
 		 
 		 response.flushBuffer();
 	}
+    
+    @GetMapping("/export/departements")
+    public ResponseEntity<ByteArrayResource> exportVillesCSV() {
+        List<Departement> departements = departementService.getAllDepartements();
+
+        try (
+            StringWriter stringWriter = new StringWriter();
+            CSVWriter csvWriter = new CSVWriter(stringWriter)
+        ) {
+            csvWriter.writeNext(new String[]{"Nom du département", "Code département" });
+            for (Departement departement : departements) {
+                csvWriter.writeNext(new String[]{departement.getNom(), String.valueOf(departement.getNumero())});
+            }
+            csvWriter.flush();
+            byte[] bytes = stringWriter.toString().getBytes();
+            ByteArrayResource resource = new ByteArrayResource(bytes);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=villes.csv");
+
+            return ResponseEntity
+                    .ok()
+                    .headers(headers)
+                    .contentLength(bytes.length)
+                    .contentType(MediaType.parseMediaType("application/csv"))
+                    .body(resource);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     
     @PostMapping
     public ResponseEntity<Departement> insertDepartement(@RequestBody Departement departement) throws FunctionalException {
