@@ -25,6 +25,17 @@ public class DepartementService {
 	public Departement getDepartementById(Long id) {
 		return em.find(Departement.class, id);
 	}
+	
+	public Departement getDepartementByNumero(String numero) {
+	    TypedQuery<Departement> query = em.createQuery("SELECT d FROM Departement d WHERE d.numero = :numero", Departement.class);
+	    query.setParameter("numero", numero);
+	    List<Departement> results = query.getResultList();
+	    if (results.isEmpty()) {
+	        return null;
+	    } else {
+	        return results.get(0);
+	    }
+	}
 
 	public List<Departement> insertDepartement(Departement departement) {
 		Departement existingDepartement = em.find(Departement.class, departement.getId());

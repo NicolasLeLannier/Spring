@@ -6,6 +6,7 @@ package com.diginamic.DigiHello.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.diginamic.DigiHello.exception.FunctionalException;
@@ -83,5 +84,12 @@ public class VilleService {
 		departement = departementRepository.save(departement); // Save the departement first
 		ville.setDepartement(departement); // Set the saved departement to the ville
 		return villeRepository.save(ville); // Then save the ville
+	}
+	
+	
+	@Async
+	public void exportToCsvOnDisk() {
+		for(int i = 0; i < 10000000; i++)
+		System.out.println("Launched by get : " + i);
 	}
 }

@@ -73,21 +73,18 @@ public class VilleControleur {
 				.map(ville -> modelMapper.map(ville, VilleDTO.class)).collect(Collectors.toList());
 	}
 
-	@PostConstruct
-	public void init() {
-		// first time we create some towns because db is empty...
-		try {
-			insertVille(new Ville("Paris", 2133111, new Departement("75", "Paris")));
-			insertVille(new Ville("Marseille", 873076, new Departement("13", "Bouches-du-Rhône")));
-			insertVille(new Ville("Lyon", 522250, new Departement("69", "Rhône")));
-			insertVille(new Ville("Tours", 150000, new Departement("37", "Indre-et-Loire")));
-		} catch (FunctionalException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-//		insertVille(new Ville("La Membrolle-sur-Choisille", 1000,new Departement("37","Indre-et-Loire")));
-//		insertVille(new Ville("Saint-Cyr-sur-Loire", 50000,new Departement("37","Indre-et-Loire")));
-	}
+//	@PostConstruct
+//	public void init() {
+//		// first time we create some towns because db is empty...
+//		try {
+//			insertVille(new Ville("Paris", 2133111, new Departement("75", "Paris")));
+//			insertVille(new Ville("Marseille", 873076, new Departement("13", "Bouches-du-Rhône")));
+//			insertVille(new Ville("Lyon", 522250, new Departement("69", "Rhône")));
+//			insertVille(new Ville("Tours", 150000, new Departement("37", "Indre-et-Loire")));
+//		} catch (FunctionalException e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 //    @GetMapping
 //    public List<Ville> getListeVilles() {
@@ -232,6 +229,15 @@ public class VilleControleur {
 	        return new ResponseEntity<>("Aucune ville n'a été trouvée dans le département " + departementNumero, HttpStatus.NOT_FOUND);
 	    }
 	}
+	
+	
+	
+	@GetMapping("/exportToCsvOnDisk")
+	public String exportToCsvOnDisk() {
+		villeService.exportToCsvOnDisk();
+		return "ok";
+	}
+	
 
 
 	@PostMapping

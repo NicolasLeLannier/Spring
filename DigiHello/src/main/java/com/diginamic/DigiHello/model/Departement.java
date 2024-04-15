@@ -25,12 +25,12 @@ public class Departement {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(nullable=false, unique=true)
+//	@Column(nullable=false, unique=true)
 	private String numero;
-	@Column(nullable=false, unique=true)
+//	@Column(nullable=false, unique=true)
 	private String nom;
 	
-	@OneToMany(mappedBy = "departement", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "departement", cascade = CascadeType.PERSIST)
 	@JsonIgnore		// Empêche la recursion infini dans le JSON
     private List<Ville> villes = new ArrayList<>();
 

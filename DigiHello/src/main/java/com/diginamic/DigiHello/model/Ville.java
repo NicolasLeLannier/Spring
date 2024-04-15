@@ -27,7 +27,7 @@ public class Ville {
 	@Column(nullable = false)
 	private int nbHabitant;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "departement_id", nullable = false)
 	@NotNull
     private Departement departement;
