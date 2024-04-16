@@ -45,43 +45,43 @@ public class CsvDataLoader implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) throws Exception {
-        Resource resource = resourceLoader.getResource("file:C:/Users/azorg/Downloads/cities.csv");
-        File file = resource.getFile();
-        if (!file.exists()) {
-            throw new RuntimeException("Le fichier CSV n'existe pas");
-        }
-        Path path = Paths.get("C:/Users/azorg/Downloads/cities.csv");
-        try (BufferedReader reader = Files.newBufferedReader(path)) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] values = line.split(",");
-                String villeNom = values[3];
-                int villeNbHabitant = 10000;
-                String departementNom = values[6];
-                String departementNumero = values[7];
-
-                Departement departement = departementRepository.findByNom(departementNom);
-                if (departement == null) {
-                    departement = new Departement();
-                    departement.setNom(departementNom);
-                    departement.setNumero(departementNumero);
-                    departement = departementRepository.save(departement);
-                }
-                
-                System.out.println(values[9] + " | Insee : " + values[0]);
-
-                Ville ville = new Ville();
-                ville.setNom(villeNom);
-                ville.setNbHabitant(villeNbHabitant);
-                ville.setDepartement(departement);
-
-                Departement mergedDepartement = mergeDepartement(departement);
-                ville.setDepartement(mergedDepartement);
-                villeRepository.save(ville);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException("Erreur lors de la lecture du fichier CSV", e);
-        }
+//        Resource resource = resourceLoader.getResource("file:C:/Users/azorg/Downloads/cities.csv");
+//        File file = resource.getFile();
+//        if (!file.exists()) {
+//            throw new RuntimeException("Le fichier CSV n'existe pas");
+//        }
+//        Path path = Paths.get("C:/Users/azorg/Downloads/cities.csv");
+//        try (BufferedReader reader = Files.newBufferedReader(path)) {
+//            String line;
+//            while ((line = reader.readLine()) != null) {
+//                String[] values = line.split(",");
+//                String villeNom = values[3];
+//                int villeNbHabitant = 10000;
+//                String departementNom = values[6];
+//                String departementNumero = values[7];
+//
+//                Departement departement = departementRepository.findByNom(departementNom);
+//                if (departement == null) {
+//                    departement = new Departement();
+//                    departement.setNom(departementNom);
+//                    departement.setNumero(departementNumero);
+//                    departement = departementRepository.save(departement);
+//                }
+//                
+//                System.out.println(values[9] + " | Insee : " + values[0]);
+//
+//                Ville ville = new Ville();
+//                ville.setNom(villeNom);
+//                ville.setNbHabitant(villeNbHabitant);
+//                ville.setDepartement(departement);
+//
+//                Departement mergedDepartement = mergeDepartement(departement);
+//                ville.setDepartement(mergedDepartement);
+//                villeRepository.save(ville);
+//            }
+//        } catch (IOException e) {
+//            throw new RuntimeException("Erreur lors de la lecture du fichier CSV", e);
+//        }
     }
     
     @Transactional
