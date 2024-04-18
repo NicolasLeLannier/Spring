@@ -12,9 +12,11 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import jakarta.annotation.Generated;
+import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,19 +34,27 @@ public class UserAccount {
 	private String username;
 	private String password;
 	
-	@ElementCollection(fetch = FetchType.EAGER)
-	List<GrantedAuthority> authorities = new ArrayList<>();
+	@Column(name = "role")
+	@Enumerated(EnumType.STRING)
+	private UserRole role;
 
 	/** Constructeur
 	 * @param username
 	 * @param password
 	 * @param authorities
 	 */
-	public UserAccount(String username, String password, String... authorities) {
+	public UserAccount(String username, String password, UserRole role) {
 		super();
 		this.username = username;
 		this.password = password;
-		this.authorities = Arrays.stream(authorities).map(SimpleGrantedAuthority::new).map(GrantedAuthority.class::cast).toList();
+		this.role = role;
+	}
+
+	/** Constructeur
+	 * 
+	 */
+	public UserAccount() {
+		super();
 	}
 
 	/** Getter
@@ -88,27 +98,27 @@ public class UserAccount {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-	/** Getter
-	 * @return the authorities
-	 */
-	public List<GrantedAuthority> getAuthorities() {
-		return authorities;
-	}
-
-	/** Setter
-	 * @param authorities the authorities to set
-	 */
-	public void setAuthorities(List<GrantedAuthority> authorities) {
-		this.authorities = authorities;
-	}
 	
 	
 	public UserDetails asUser() {
 		return User.withDefaultPasswordEncoder()
 			.username(getUsername())
 			.password(getPassword())
-			.authorities(getAuthorities())
+			.authorities(getRole().name())
 			.build();
+	}
+
+	/** Getter
+	 * @return the role
+	 */
+	public UserRole getRole() {
+		return role;
+	}
+
+	/** Setter
+	 * @param role the role to set
+	 */
+	public void setRole(UserRole role) {
+		this.role = role;
 	}
 }

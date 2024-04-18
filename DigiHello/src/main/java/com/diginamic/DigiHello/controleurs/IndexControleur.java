@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class IndexControleur {
 
-	@GetMapping
-	public String getIndex() {
-		return "index";
-	}
+//	@GetMapping
+//	public String getIndex() {
+//		return "index";
+//	}
 	
 }

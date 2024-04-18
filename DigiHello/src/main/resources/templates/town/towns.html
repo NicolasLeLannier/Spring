@@ -1,28 +1,50 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Towns Liste</title>
+	<meta charset="UTF-8">
+	<title>Towns Liste</title>
+	    <style>
+        .delete-button {
+            background-color: #dc3545; 
+            color: #fff; 
+            border: none;
+            padding: 8px 12px; 
+            text-align: center; 
+            text-decoration: none; 
+            display: inline-block; 
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .delete-button:hover {
+            background-color: #c82333; /* Darker red on hover */
+        }
+    </style>
 </head>
+
 <body>
-    <h1>Towns Liste :</h1>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Population</th>
-                <th>Department</th>
-                <th>Department Number</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="town : ${towns}">
-                <td th:text="${town.nom}">Town Name</td>
-                <td th:text="${town.nbHabitant}">Population</td>
-                <td th:text="${town.departement.nom}">Department Name</td>
-                <td th:text="${town.departement.numero}">Department Number</td>
-            </tr>
-        </tbody>
-    </table>
+	<h1>Towns Liste :</h1>
+	<table border="1">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Population</th>
+				<th>Department</th>
+				<th>Department Number</th>
+				<th>Delete</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="town : ${towns}">
+				<td th:text="${town.nom}">Town Name</td>
+				<td th:text="${town.nbHabitant}">Population</td>
+				<td th:text="${town.departement.nom}">Department Name</td>
+				<td th:text="${town.departement.numero}">Department Number</td>
+				<td><a class="delete-button" th:href="@{/villes/deleteTown/{id}(id=${town.id})}">Delete</a></td>
+           </tr>
+		</tbody>
+	</table>
 </body>
+
 </html>

@@ -275,14 +275,15 @@ public class VilleControleur {
 		}
 	}
 
-	@DeleteMapping("/{id}")
+	@GetMapping("/deleteTown/{id}")
 	public ResponseEntity<Void> supprimerVille(@PathVariable int id) {
 		Ville existingVille = villeRepository.findById(id).orElse(null);
 		if (existingVille != null) {
-			villeRepository.deleteById(id);
+			villeService.supprimerVille(id);
 			return new ResponseEntity<>(HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
+
 }

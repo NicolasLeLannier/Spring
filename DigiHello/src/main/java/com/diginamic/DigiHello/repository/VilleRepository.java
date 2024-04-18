@@ -6,6 +6,7 @@ package com.diginamic.DigiHello.repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.http.ResponseEntity;
 
 import com.diginamic.DigiHello.model.Departement;
 import com.diginamic.DigiHello.model.Ville;
@@ -42,5 +43,7 @@ public interface VilleRepository extends CrudRepository<Ville, Integer> {
     Page<Ville> findByDepartementNumeroOrderByNbHabitantDesc(String departementNumero, Pageable pageable);
     
     Ville findByNomAndDepartement(String nom, Departement departement);
+    
+    ResponseEntity<Void> deleteByNom(String name);
 
 }

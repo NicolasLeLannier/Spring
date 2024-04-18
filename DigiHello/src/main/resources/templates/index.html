@@ -1,10 +1,21 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<title>Accueil DigiHello</title>
-	</head>
-	<body>
-		<h1>Accueil DigiHello</h1>
-	</body>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Accueil DigiHello</title>
+</head>
+
+<body>
+	<h1>Accueil DigiHello</h1>
+	<a href="towns">Les des villes et départements</a>
+	
+	<br>
+	<h3>Profil utilisateur :</h3>
+	<ul>
+		<li th:text="'Username : '+${authentication.name}">Username</li>
+		<li th:text="'Authorities : '+${authentication.authorities}">Role</li>
+	</ul>
+</body>
+
 </html>
